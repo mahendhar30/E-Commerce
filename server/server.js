@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 const path = require('path');
 const dotenv = require('dotenv');
 
@@ -13,9 +14,6 @@ const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
-
-// Connect to MongoDB
-connectDB();
 
 const app = express();
 
@@ -37,7 +35,14 @@ app.use('/api/admin', adminRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'active', message: 'E-Commerce API is running smoothly' });
+  const databaseReady = mongoose.connection.readyState === 1;
+  res.status(databaseReady ? 200 : 503).json({
+    status: databaseReady ? 'active' : 'degraded',
+    database: databaseReady ? 'connected' : 'disconnected',
+    message: databaseReady
+      ? 'E-Commerce API is running smoothly'
+      : 'Database connection is not ready',
+  });
 });
 
 // Fallback to client/index.html for client-side routing if not an API route
@@ -53,10 +58,22 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`=============================================`);
-  console.log(`🚀 E-Commerce Server running on port ${PORT}`);
-  console.log(`🌐 Website URL: http://localhost:${PORT}`);
-  console.log(`🛠️ Admin URL:   http://localhost:${PORT}/admin-login.html`);
-  console.log(`=============================================`);
-});
+
+const startServer = async () => {
+  try {
+    await connectDB();
+
+    app.listen(PORT, () => {
+      console.log(`=============================================`);
+      console.log(`E-Commerce Server running on port ${PORT}`);
+      console.log(`Website URL: http://localhost:${PORT}`);
+      console.log(`Admin URL:   http://localhost:${PORT}/admin-login.html`);
+      console.log(`=============================================`);
+    });
+  } catch (error) {
+    console.error('Server startup aborted. Check MONGO_URI and make sure MongoDB is reachable.');
+    process.exitCode = 1;
+  }
+};
+
+startServer();

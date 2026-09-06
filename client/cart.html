@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="View your shopping bag, manage product quantities, and proceed to Cash on Delivery checkout at GenZ Shopping." />
+  <title>Your Shopping Bag — GenZ Shopping</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/toast.css" />
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="/index.html" class="brand-logo">
+        <div class="brand-icon">🔥</div>
+        <div class="brand-text">GenZ <span>Shopping</span></div>
+      </a>
+
+      <div class="nav-actions" style="margin-left: auto;">
+        <a href="/index.html" class="nav-link">
+          ← Back to Drops
+        </a>
+        <div id="navAuthActions" style="display: flex; align-items: center; gap: 10px;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 24px;">
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/index.html">Home</a>
+      <span>/</span>
+      <span style="color: #0f172a; font-weight: 600;">Shopping Bag</span>
+    </nav>
+
+    <!-- Cart Container (Rendered dynamically by cart.js) -->
+    <div id="cartContainer">
+      <div style="text-align: center; padding: 60px 0;">
+        <div style="display: inline-block; width: 40px; height: 40px; border: 3px solid #e2e8f0; border-top-color: #4f46e5; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+        <p style="margin-top: 14px; color: #64748b; font-weight: 600;">Fetching your cart items...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2026 GenZ Shopping Inc. All rights reserved. Full-Stack Web Development Major Project.</div>
+        <div style="display: flex; gap: 16px;">
+          <a href="/index.html">Trending Drops</a>
+          <a href="/orders.html">My Orders</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/cart.js"></script>
+</body>
+</html>

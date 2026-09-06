@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmed — GenZ Shopping</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/toast.css" />
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="/index.html" class="brand-logo">
+        <div class="brand-icon">🔥</div>
+        <div class="brand-text">GenZ <span>Shopping</span></div>
+      </a>
+
+      <div class="nav-actions" style="margin-left: auto;">
+        <a href="/orders.html" class="nav-link">My Orders</a>
+        <div id="navAuthActions" style="display: flex; align-items: center; gap: 10px;"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding: 60px 20px; max-width: 720px; text-align: center;">
+    <!-- Celebration Icon -->
+    <div style="width: 84px; height: 84px; border-radius: 50%; background: #dcfce7; color: #16a34a; font-size: 2.8rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 25px -5px rgba(22, 163, 74, 0.3);">
+      ✓
+    </div>
+
+    <span style="display: inline-block; background: #e0e7ff; color: #4f46e5; font-size: 0.82rem; font-weight: 700; padding: 4px 14px; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px;">
+      Payment Method: Cash on Delivery (COD)
+    </span>
+
+    <h1 style="font-size: 2.2rem; font-weight: 800; color: #0f172a; margin-bottom: 12px;">
+      Your order has been placed successfully!
+    </h1>
+
+    <p style="color: #64748b; font-size: 1.05rem; line-height: 1.6; margin-bottom: 32px;">
+      Thank you for shopping with GenZ Shopping. We have received your order and our fulfillment team is preparing your package for express dispatch.
+    </p>
+
+    <!-- Order ID Card -->
+    <div style="background: #fff; border-radius: 16px; border: 1px solid #e2e8f0; padding: 28px; box-shadow: var(--shadow-sm); margin-bottom: 36px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px;">
+        <span style="font-size: 0.9rem; color: #64748b;">Assigned Tracking ID:</span>
+        <strong id="displayOrderId" style="font-size: 1.15rem; color: #4f46e5; font-family: monospace;">Loading...</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <span style="font-size: 0.9rem; color: #64748b;">Order Status:</span>
+        <span class="status-badge status-pending">● Pending Fulfillment</span>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <span style="font-size: 0.9rem; color: #64748b;">Estimated Delivery Time:</span>
+        <strong style="color: #0f172a;">2 - 4 Business Days</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.9rem; color: #64748b;">Payment Due on Delivery:</span>
+        <strong id="displayOrderTotal" style="color: #10b981; font-size: 1.1rem;">Cash on Delivery</strong>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+      <a href="/orders.html" class="btn-auth btn-primary" style="padding: 14px 28px; font-size: 1rem;">
+        📦 View My Orders
+      </a>
+      <a href="/index.html" class="btn-auth btn-secondary" style="padding: 14px 28px; font-size: 1rem;">
+        Continue Shopping
+      </a>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2026 GenZ Shopping Inc. All rights reserved. Full-Stack Web Development Major Project.</div>
+        <div>
+          <a href="/orders.html">Track Order</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const params = new URLSearchParams(window.location.search);
+      const orderId = params.get('orderId');
+
+      if (orderId) {
+        document.getElementById('displayOrderId').textContent = '#' + orderId;
+
+        try {
+          const res = await API.get(`/orders/${orderId}`);
+          if (res.success && res.order) {
+            document.getElementById('displayOrderTotal').textContent = formatPrice(res.order.totalAmount);
+          }
+        } catch (e) {
+          console.warn('Could not load order total:', e.message);
+        }
+      } else {
+        document.getElementById('displayOrderId').textContent = '#ORD-2026-RECENT';
+      }
+    });
+  </script>
+</body>
+</html>

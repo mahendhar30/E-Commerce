@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Discover viral GenZ streetwear, aesthetic room decor, trending tech, kicks, and lifestyle essentials with 100% Cash on Delivery at GenZ Shopping." />
+  <title>GenZ Shopping — Viral Streetwear, Trending Tech & Cash on Delivery</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/toast.css" />
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <!-- Logo -->
+      <a href="/index.html" class="brand-logo" id="siteLogo">
+        <div class="brand-icon">🔥</div>
+        <div class="brand-text">GenZ <span>Shopping</span></div>
+      </a>
+
+      <!-- Search Input with Live Debounce -->
+      <div class="nav-search">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="productSearchInput" 
+          placeholder="Search trending drops, hoodies, aesthetic tech..." 
+          autocomplete="off"
+        />
+      </div>
+
+      <!-- Actions (Cart & Auth) -->
+      <div class="nav-actions">
+        <a href="/cart.html" class="cart-btn" id="navCartBtn" title="Shopping Bag">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <span>Bag</span>
+          <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+        </a>
+
+        <!-- Dynamic Auth Buttons injected by auth.js -->
+        <div id="navAuthActions" style="display: flex; align-items: center; gap: 10px;">
+          <a href="/login.html" class="nav-link">Sign In</a>
+          <a href="/register.html" class="btn-auth btn-primary">Register</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Banner Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-banner">
+          <div class="hero-content">
+            <div class="hero-badge">🔥 Viral Drops • GenZ Summer Edit 2026</div>
+            <h1 class="hero-title">Own The Aesthetic With <span>Trending Drops</span></h1>
+            <p class="hero-desc">
+              Discover viral streetwear hoodies, aesthetic room vibes, wireless audio, and Y2K kicks. Everything delivered straight to your door with 100% Cash on Delivery (COD).
+            </p>
+            <div class="hero-features">
+              <div class="feature-pill">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                Cash on Delivery (COD)
+              </div>
+              <div class="feature-pill">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                Instant Order Confirmation
+              </div>
+              <div class="feature-pill">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                100% Authentic Drops
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-art">
+            <div class="hero-card-preview">
+              <div style="font-size: 0.8rem; font-weight: 700; color: #a5b4fc; margin-bottom: 6px;">VIRAL TRENDING DROP</div>
+              <div style="font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 12px;">Apple AirPods Max</div>
+              <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 14px;">
+                <span style="font-size: 1.6rem; font-weight: 800; color: #38bdf8;">₹59,900</span>
+                <span style="font-size: 0.9rem; color: #94a3b8; text-decoration: line-through;">₹64,900</span>
+              </div>
+              <span style="display: inline-block; background: #10b981; color: #fff; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 99px;">
+                ⚡ Cash on Delivery Available
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Catalog Section with Toolbar & Grid -->
+    <section class="container" style="margin-top: 10px;">
+      <!-- Filter and Sort Bar -->
+      <div class="catalog-toolbar">
+        <!-- Dynamic Category Pills -->
+        <div class="category-pills" id="categoryPills">
+          <button class="category-pill active" onclick="setCategory('all')">All Drops</button>
+        </div>
+
+        <!-- Sort Select -->
+        <div class="toolbar-controls">
+          <label for="sortSelect" style="font-size: 0.85rem; font-weight: 600; color: #64748b;">Sort By:</label>
+          <select class="sort-select" id="sortSelect">
+            <option value="">Viral / Trending First</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Top Customer Rated</option>
+            <option value="name-asc">Alphabetical (A - Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="product-grid" id="productGrid">
+        <!-- Populated dynamically by main.js -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>GenZ Shopping 🔥</h3>
+          <p>
+            The internet's favorite destination for viral streetwear, room aesthetics, aesthetic tech, and trending kicks. Seamless ordering with Cash on Delivery.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Customer Care</h4>
+          <ul>
+            <li><a href="/orders.html">Track My Order</a></li>
+            <li><a href="/cart.html">Shopping Bag</a></li>
+            <li><a href="/index.html">Cash on Delivery Policy</a></li>
+            <li><a href="/index.html">Returns & Replacements</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Trending Drops</h4>
+          <ul>
+            <li><a href="/index.html">GenZ Streetwear</a></li>
+            <li><a href="/index.html">Trending Tech</a></li>
+            <li><a href="/index.html">Room Aesthetic</a></li>
+            <li><a href="/index.html">Kicks & Footwear</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Administration</h4>
+          <ul>
+            <li><a href="/admin-login.html" style="color: #818cf8; font-weight: 700;">Admin Login</a></li>
+            <li><a href="/admin.html">Dashboard</a></li>
+            <li><a href="/admin.html">Product Management</a></li>
+            <li><a href="/admin.html">Orders Queue</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 GenZ Shopping Inc. All rights reserved. Full-Stack Web Development Major Project.</div>
+        <div style="display: flex; gap: 16px;">
+          <span>🔒 Cash on Delivery Verified</span>
+          <span>⚡ Same Day Dispatch</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

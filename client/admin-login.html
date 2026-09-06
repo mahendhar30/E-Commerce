@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administrator Sign In — GenZ Shopping Admin</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/toast.css" />
+</head>
+<body style="background: #0f172a;">
+
+  <header style="padding: 24px 0;">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+      <a href="/index.html" class="brand-logo" style="color: #fff;">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-text" style="color: #fff;">GenZ <span>Admin</span></div>
+      </a>
+      <a href="/index.html" style="color: #94a3b8; font-size: 0.9rem; font-weight: 600;">← Back to Drops</a>
+    </div>
+  </header>
+
+  <main class="auth-wrapper">
+    <div class="auth-card" style="border: 1px solid #334155; background: #1e293b; color: #fff;">
+      <div class="auth-header">
+        <div class="auth-icon" style="background: #312e81; color: #818cf8;">
+          🔒
+        </div>
+        <h1 class="auth-title" style="color: #fff;">GenZ Admin Access</h1>
+        <p class="auth-subtitle" style="color: #94a3b8;">Restricted portal for authorized store administrators</p>
+      </div>
+
+      <!-- Quick Fill Box -->
+      <div style="background: #0f172a; border-radius: 12px; padding: 14px; margin-bottom: 24px; border-left: 3px solid #6366f1; font-size: 0.85rem; color: #cbd5e1;">
+        <div style="font-weight: 700; color: #fff; margin-bottom: 2px;">Administrator Credentials:</div>
+        <div>Email: <strong style="color: #818cf8;">admin@eshop.com</strong> | Pass: <strong style="color: #818cf8;">admin123</strong></div>
+        <button type="button" class="demo-btn-fill" style="background: #1e293b; color: #a5b4fc; border-color: #4338ca;" onclick="fillAdminCredentials()">
+          ⚡ Auto-fill Admin Credentials
+        </button>
+      </div>
+
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label class="form-label" for="adminEmail" style="color: #cbd5e1;">Admin Email Address *</label>
+          <input 
+            type="email" 
+            id="adminEmail" 
+            class="form-input" 
+            placeholder="admin@eshop.com" 
+            style="background: #0f172a; border-color: #334155; color: #fff;" 
+            required 
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="adminPassword" style="color: #cbd5e1;">Admin Password *</label>
+          <input 
+            type="password" 
+            id="adminPassword" 
+            class="form-input" 
+            placeholder="••••••••" 
+            style="background: #0f172a; border-color: #334155; color: #fff;" 
+            required 
+          />
+        </div>
+
+        <button type="submit" id="btnAdminLoginSubmit" class="btn-auth btn-primary" style="width: 100%; justify-content: center; padding: 14px; font-size: 1rem; margin-top: 10px;">
+          Authorize & Enter Dashboard →
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 24px; font-size: 0.85rem; color: #64748b;">
+        Customer looking to browse drops? 
+        <a href="/login.html" style="color: #818cf8; font-weight: 700;">Customer Sign In</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    function fillAdminCredentials() {
+      document.getElementById('adminEmail').value = 'admin@eshop.com';
+      document.getElementById('adminPassword').value = 'admin123';
+      showToast('Admin credentials populated!', 'info');
+    }
+
+    document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPassword').value;
+
+      const btn = document.getElementById('btnAdminLoginSubmit');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<span style="display:inline-block; width:12px; height:12px; border:2px solid #fff; border-top-color:transparent; border-radius:50%; animation:spin 0.6s linear infinite;"></span> Verifying Privileges...`;
+
+      try {
+        const res = await API.post('/auth/login', { email, password });
+        if (res.success && res.token) {
+          if (res.user.role !== 'admin') {
+            showToast('Access denied: You do not have administrator rights.', 'error', 'Forbidden');
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+            return;
+          }
+
+          Auth.setSession(res.user, res.token);
+          showToast('Administrator privileges verified! Welcome, ' + res.user.name, 'success');
+
+          setTimeout(() => {
+            window.location.href = '/admin.html';
+          }, 600);
+        }
+      } catch (error) {
+        showToast(error.message || 'Invalid administrator credentials', 'error', 'Auth Failed');
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    });
+  </script>
+</body>
+</html>
